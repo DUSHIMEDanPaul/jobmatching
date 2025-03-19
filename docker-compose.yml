@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   mongo:
     image: mongo
@@ -12,11 +13,11 @@ services:
     build: ./server
     container_name: job-portal-server
     ports:
-      - "5500:5500"
+      - "5555:5555"
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/job-portal
+      -  MONGO_URL=mongodb://mongo:27017/job-portal
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -25,14 +26,12 @@ services:
     build: ./client
     container_name: job-portal-client
     ports:
-      - "5173:5173"
+      - "5137:5137"
+    tty: true
     stdin_open: true
-    tty: true  
-    depends_on:
-      - server
     volumes:
-      - ./client:/client
-      - /client/node_modules
+      - ./client:/app
+      - /app/node_modules
 
 volumes:
   mongo-data:
